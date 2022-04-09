@@ -22,7 +22,7 @@ This is still a work in progress and is not currently intended to be a guide for
 -----  RTL8723BS builds with brunch r100:
 
 
-Building 4.19 rtl8723bs driver involved using OLDER rockchip version as per above or:
+Building 4.19 rtl8723bs driver involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
 git fetch https://github.com/youling257/rockchip_wlan v5.2.17.1
 git checkout FETCH_HEAD
