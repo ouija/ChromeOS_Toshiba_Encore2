@@ -24,7 +24,7 @@ _-----  Realtek rtl8723bs (rockchip_wlan) builds with brunch r100 / rammus recov
 Note you have to edit the `Makefile` for the rtl8723bs driver and hardcode the full path to the folder of the source code or build will fail;  There are some entries at the beginning of this file, and another around line 244.
 
 
-Building 4.19 rtl8723bs driver involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
+**Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
 git fetch https://github.com/youling257/rockchip_wlan v5.2.17.1
 git checkout FETCH_HEAD
@@ -36,16 +36,15 @@ also applied custom ouija backlight lpss patch to enable brightness slider.
 _[config file has 3 options already set]_
 
 
-Building 5.4 rtl8723bs driver involved checking out the LATEST commit and then actually creating a patch to revert the changes made with commit af0df86
-(https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe)
-by running `git diff af0df86..443ce25 > patch.diff` and applying that to the file:
+**Building 5.4 rtl8723bs driver **involved checking out the LATEST commit and then actually creating a [patch](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/patches/kernel-54-rtl8723bs-revert-proc_ops.diff) to revert the changes made between commit `af0df86` and `443ce25` 
+(https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe) by running `git diff af0df86..443ce25 > kernel-54-rtl8723bs-revert-proc_ops.diff` and applying that to the file:
 `patch rtl8723bs/os_dep/linux/rtw_proc.c patch.diff`
  
 
-Building 5.10 rtl8723bs (latest ver) driver required editing drivers/net/wireless/realtek/rtl8723bs/os_dep/linux/rtw_proc.c
+**Building 5.10 rtl8723bs driver** required checking out the LATEST commit and editing drivers/net/wireless/realtek/rtl8723bs/os_dep/linux/rtw_proc.c
 and replacing all occurrences of `pde_data` with `PDE_DATA`
 
 
-Building 5.15 rtl8723bs driver works with patches made per v5.10
+**Building 5.15 rtl8723bs driver** required same as v5.10
 
 No modifications made to other kernels / not used _(chromebook-4.4, chromebook-5.4, macbook)_
