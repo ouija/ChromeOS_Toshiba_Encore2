@@ -1,0 +1,25 @@
+diff -Naur a/drivers/pwm/pwm-lpss-platform.c b/drivers/pwm/pwm-lpss-platform.c
+--- a/drivers/pwm/pwm-lpss-platform.c	2022-04-06 13:24:03.197628000 -0600
++++ b/drivers/pwm/pwm-lpss-platform.c	2022-04-06 13:26:29.423584200 -0600
+@@ -40,6 +40,11 @@
+ 	.bypass = true,
+ };
+ 
++/* PWM consumed by the Intel GFX */
++static struct pwm_lookup lpss_pwm_lookup[] = {
++	PWM_LOOKUP("80860F09:00", 0, "0000:00:02.0", "pwm_lpss", 0, PWM_POLARITY_NORMAL),
++};
++
+ static int pwm_lpss_probe_platform(struct platform_device *pdev)
+ {
+ 	const struct pwm_lpss_boardinfo *info;
+@@ -60,6 +65,9 @@
+ 
+ 	platform_set_drvdata(pdev, lpwm);
+ 
++	/* Register intel-gfx device as allowed consumer */
++	pwm_add_table(lpss_pwm_lookup, ARRAY_SIZE(lpss_pwm_lookup));	
++
+ 	pm_runtime_set_active(&pdev->dev);
+ 	pm_runtime_enable(&pdev->dev);
+ 
