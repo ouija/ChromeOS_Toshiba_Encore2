@@ -21,6 +21,8 @@ This is still a work in progress and is not currently intended to be a guide for
 
 -----  RTL8723BS builds with brunch r100:
 
+Note you have to edit the `Makefile` for the rtl8723bs driver and hardcode the full path to the folder of the source code or build will fail;  There are some entries at the beginning of this file, and another around line 244.
+
 
 Building 4.19 rtl8723bs driver involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
