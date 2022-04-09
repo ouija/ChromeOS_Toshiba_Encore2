@@ -261,7 +261,7 @@ rm -r ./chroot/tmp/kernel
 
 done
 
-rm -r ./chroot/home/
-rm -r ./chroot/tmp/
+#rm -r ./chroot/home/
+#rm -r ./chroot/tmp/
 echo "DONE!    [kernels built in directory /chroot]"
 echo
