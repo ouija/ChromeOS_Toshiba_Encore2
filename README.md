@@ -36,8 +36,8 @@ also applied custom ouija backlight lpss patch to enable brightness slider.
 _[config file has 3 options already set]_
 
 
-**Building 5.4 rtl8723bs driver **involved checking out the LATEST commit and then actually creating a [patch](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/patches/kernel-54-rtl8723bs-revert-proc_ops.diff) to revert the changes made between commit `af0df86` and `443ce25` 
-(https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe) by running `git diff af0df86..443ce25 > kernel-54-rtl8723bs-revert-proc_ops.diff` and applying that to the file:
+**Building 5.4 rtl8723bs driver** involved checking out the LATEST commit and then actually creating a [patch](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/patches/kernel-54-rtl8723bs-revert-proc_ops.diff) to revert the [changes made between commit af0df86 and 443ce25](https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe) 
+ by running `git diff af0df86..443ce25 > kernel-54-rtl8723bs-revert-proc_ops.diff` and applying that to the file:
 `patch rtl8723bs/os_dep/linux/rtw_proc.c patch.diff`
  
 
