@@ -62,13 +62,13 @@ make -j$(nproc) O=out chromeos_defconfig
 make -j$(nproc) O=out
 ...etc..
 ```
-Then copy the `build-kernel.sh` script from this repo to the source folder where you checked out the brunch source and run it to build all of the kernels and modules needed for Brunch/ChromeOS _(note this script is current defined to build sources for kernels 4.19, 5.4, 5.10 and 5.15)_
+Then copy the [build-kernel.sh](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/build-kernel.sh) script from this repo to the source folder where you checked out the brunch source and run it to build all of the kernels and modules needed for Brunch/ChromeOS _(note this script is current defined to build sources for kernels 4.19, 5.4, 5.10 and 5.15)_
 
 This should output the built kernels to the `./chroot/` directory
 
-Then you need to have a [USB created](https://github.com/sebanc/brunch/blob/master/install-with-windows.md#usb-installations) using the same revision as the brunch source code you checked out, and then you can copy the `replace-kernels.sh` script to this `./chroot` folder where the kernel sources were built, and run it.
+Then you need to have a [USB created](https://github.com/sebanc/brunch/blob/master/install-with-windows.md#usb-installations) using the same revision as the brunch source code you checked out, and then you can copy the [replace-kernel.sh](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/replace_kernel.sh) script to this `./chroot` folder where the kernel sources were built, and run it.
 
-The `replace-kernels.sh` script should detect the `ROOT-C` partition of the Brunch/ChromeOS USB and ask you if you want to replace the default kernels with the custom ones you just built -- type `yes` and it will do so.
+The [replace-kernel.sh](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/replace_kernel.sh) script should detect the `ROOT-C` partition of the Brunch/ChromeOS USB and ask you if you want to replace the default kernels with the custom ones you just built -- type `yes` and it will do so.
 
 Then you should eject the USB and run in on the Toshiba Encore 2 [WT8-B] -- boot from the USB device, and simply run ChromeOS _(don't choose the 'options' during initial boot)_;  Brunch should load and state that RootFS is being rebuilt, and eventually ChromeOS should load.
 
@@ -78,6 +78,6 @@ Next, open the ChromeOS settings by clicking on the clock icon in the lower righ
 
 Now you should be on the Chrome window/tab that says `You're browsing as a Guest` and press `CTRL-ALT-T` to open crosh, and then type in `shell`, which will open the shell, and then type in the command `sudo chromeos-install -dst /dev/mmcblk1` to install ChromeOS to the device's internal storage.   **Note that this will wipe the entire device!**
 
-Note that there may be issues booting the device after installation;  I had an EFI partition already created on my device with the `efi` folder taken from the ChromeOS installer, and I believe that the `chromeos-install` script didn't modify this partition, so just making note of this here.
+_Note that there may be issues booting the device after installation;  I had an EFI partition already created on my device with the [efi folder](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/efi.zip) taken from the ChromeOS installer, and I believe that the `chromeos-install` script didn't modify this partition, so just making note of this here._
 
 Once the installation has completed, you can reboot the device by typing `sudo reboot` into the shell, and then eject the USB, and ChromeOS should now boot from the internal storage.   You can also now choose the run the `options` menu at startup and use a different kernel;   I've been using k5.15 on this device, becaue later kernels provide better support for Baytrail devices, but I'm still determining which kernel version works best with this device.
