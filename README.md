@@ -64,7 +64,12 @@ git reset --hard 443ce25ea0bb8e0b116e31541e534ac550be5dc8
 also applied `drm-i915-Disable-preemption-and-sleeping-while-using-the-punit-sideband.diff` patch
 also applied custom ouija backlight lpss patch to enable brightness slider.
 `patch -p1 -i ../ouija-k419-brunch-i915-drm-pwm-lpss-fix.diff`
-_[config file has 3 options already set]_
+_config file has 3 options already set:_
+```
+CONFIG_PWM_LPSS=y
+CONFIG_PWM_LPSS_PCI=y
+CONFIG_PWM_LPSS_PLATFORM=y
+```
 
 
 **Building 5.4 rtl8723bs driver** involved checking out the LATEST commit and then actually creating a [patch](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/patches/kernel-54-rtl8723bs-revert-proc_ops.diff) to revert the [changes made between commit af0df86 and 443ce25](https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe) 
