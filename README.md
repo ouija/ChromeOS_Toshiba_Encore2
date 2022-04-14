@@ -47,7 +47,7 @@ _-----  Invensense MPU 6050 device (accelerometer) builds with brunch r100 / ram
 
 Note that this device has the INV_MPU6050 device which needs to be enabled before building, by editing the `/out/.config` file that is generated when running the `make -j$(nproc) O=out chromeos_defconfig` _(see below)_
 
-You need to search this `/out/.config` file for "6050" and paste in:
+You need to search this `/out/.config` file for "6050" and replace existing two lines with:
 ```
 CONFIG_INV_MPU6050_IIO=m
 CONFIG_INV_MPU6050_I2C=m
