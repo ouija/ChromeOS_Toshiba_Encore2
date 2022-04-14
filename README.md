@@ -40,7 +40,7 @@ _-----  Realtek rtl8723bs (rockchip_wlan) builds with brunch r100 / rammus recov
 	* To instead be:
 	    `export TopDIR ?= /<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/`
 	* And again modify this line above with the full path to your Android-x86 source files!
-	* Remove inclusion of the original driver by deleting the references to `rtl8723bs` from `Kconfig` and `Makefile` files in `kernel/driver/staging` folder
+	* Remove inclusion of the original driver by deleting the references to `rtl8723bs` from `Kconfig` and `Makefile` files in `<kernel>/driver/staging` folder
 
 
 **Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
