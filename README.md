@@ -49,8 +49,8 @@ and replacing all occurrences of `pde_data` with `PDE_DATA`
 
 No modifications made to other kernels / not used _(chromebook-4.4, chromebook-5.4, macbook)_
 
-To build kernels, follow the [build instructions](https://github.com/sebanc/brunch/blob/master/BUILDING.md) by checking out the brunch source:
-`git clone https://github.com/sebanc/brunch.git -b r100 .`
+To build kernels, follow the [build instructions](https://github.com/sebanc/brunch/blob/master/BUILDING.md) by checking out the brunch source, ie:
+`git clone https://github.com/sebanc/brunch.git -b r100`
 
 Then make edits to each kernel version _(as per notes above)_, and then you need to compile the source for each kernel, by going into each kernel version directory and running the `make` command to first build kernel config file, then build kernel:
 ```
