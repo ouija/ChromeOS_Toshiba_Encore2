@@ -62,8 +62,11 @@ git checkout FETCH_HEAD
 git reset --hard 443ce25ea0bb8e0b116e31541e534ac550be5dc8
 ```
 also applied `drm-i915-Disable-preemption-and-sleeping-while-using-the-punit-sideband.diff` patch
+
 also applied custom ouija backlight lpss patch to enable brightness slider.
+
 `patch -p1 -i ../ouija-k419-brunch-i915-drm-pwm-lpss-fix.diff`
+
 _config file has 3 options already set:_
 ```
 CONFIG_PWM_LPSS=y
