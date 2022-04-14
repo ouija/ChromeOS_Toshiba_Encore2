@@ -21,7 +21,26 @@ This is still a work in progress and is not currently intended to be a guide for
 
 _-----  Realtek rtl8723bs (rockchip_wlan) builds with brunch r100 / rammus recovery 99:_
 
-Note you have to edit the `Makefile` for the rtl8723bs driver and hardcode the full path to the folder of the source code or build will fail;  There are some entries at the beginning of this file, and another around line 244.
+* Replace staging driver for `rtl8723bs` with [youling257 driver](https://github.com/youling257/rockchip_wlan):
+	* Clone the latest branch of youling257's driver via `git clone https://github.com/youling257/rockchip_wlan.git`
+	* Move the `rtl8723bs` folder to `./<kernel>/drivers/net/wireless/realtek/`
+	* Add references for this to the `./<kernel>/drivers/net/wireless/realtek/Makefile` and `./kernel/drivers/net/wireless/realtek/Kconfig` files:
+		* In **Kconfig** add `source "drivers/net/wireless/realtek/rtl8723bs/Kconfig"`
+		* In **Makefile** add `obj-$(CONFIG_RTL8723BS) += rtl8723bs/`
+	* Modify `./<kernel>/drivers/net/wireless/realtek/rtl8723bs/Makefile` to avoid issues with include paths during source compile:
+	* Delete/replace **line 24**:  `EXTRA_CFLAGS += -I$(src)/include`  with the following three new lines:
+	    ```
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/include
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/hal/phydm
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/platform
+	    ```
+	* Modify the values above after `EXTRA_CFLAGS += -I/` with the full path to your Android-x86 source files!
+	* Then replace **line 156** *(now line 158 after completing the above edit)* from this: 
+	    `export TopDIR ?= $(shell pwd)`
+	* To instead be:
+	    `export TopDIR ?= /<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/`
+	* And again modify this line above with the full path to your Android-x86 source files!
+	* Remove inclusion of the original driver by deleting the references to `rtl8723bs` from `Kconfig` and `Makefile` files in `kernel/driver/staging` folder
 
 
 **Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
