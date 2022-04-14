@@ -48,3 +48,34 @@ and replacing all occurrences of `pde_data` with `PDE_DATA`
 **Building 5.15 rtl8723bs driver** required same as v5.10
 
 No modifications made to other kernels / not used _(chromebook-4.4, chromebook-5.4, macbook)_
+
+To build kernels, follow the [build instructions](https://github.com/sebanc/brunch/blob/master/BUILDING.md) by checking out the brunch source:
+`git clone https://github.com/sebanc/brunch.git -b r100 .`
+
+Then make edits to each kernel version _(as per notes above)_, and then you need to compile the source for each kernel, by going into each kernel version directory and running the `make` command to first build kernel config file, then build kernel:
+```
+cd brunch/kernels/4.19
+make -j$(nproc) O=out chromeos_defconfig
+make -j$(nproc) O=out
+cd ../brunch/kernels/5.4
+make -j$(nproc) O=out chromeos_defconfig
+make -j$(nproc) O=out
+...etc..
+```
+Then copy the `build-kernel.sh` script from this repo to the source folder where you checked out the brunch source and run it to build all of the kernels and modules needed for Brunch/ChromeOS _(note this script is current defined to build sources for kernels 4.19, 5.4, 5.10 and 5.15)_
+
+This should output the built kernels to the `./chroot/` directory
+
+Then you need to have a [USB created](https://github.com/sebanc/brunch/blob/master/install-with-windows.md#usb-installations) using the same revision as the brunch source code you checked out, and then you can copy the `replace-kernels.sh` script to this `./chroot` folder where the kernel sources were built, and run it.
+
+The `replace-kernels.sh` script should detect the `ROOT-C` partition of the Brunch/ChromeOS USB and ask you if you want to replace the default kernels with the custom ones you just built -- type `yes` and it will do so.
+
+Then you should eject the USB and run in on the Toshiba Encore 2 [WT8-B] -- boot from the USB device, and simply run ChromeOS _(don't choose the 'options' during initial boot)_;  Brunch should load and state that RootFS is being rebuilt, and eventually ChromeOS should load.
+
+Connect to wireless network, and accept ChromeOS agreement, and _after_ ChromeOS looks for updates, it will ask if you if you want to configure the device for You or a child.   At this screen, select `Guest Mode` at the bottom of the screen, and ChromeOS will open to a Chrome browser tab.   
+
+Next, open the ChromeOS settings by clicking on the clock icon in the lower right corner of the taskbar and selecting the cog/gear icon, then navigate to `Power` and change `On Battery` to `Keep screen on` _(otherwise device will sleep during installation)_
+
+Now press `CTRL-ALT-T` to open crosh, and then type in `shell`, which will open the shell, and then type in the command `sudo chromeos-install -dst /dev/mmcplk1` to install ChromeOS to the device's internal storage.   **Note that this will wipe the entire device!**
+
+Once the installation has completed, you can reboot the device by typing `sudo reboot` into the shell, and then eject the USB, and ChromeOS should now boot from the internal storage.   You can also now choose the run the `options` menu at startup and use a different kernel;   I've been using k5.15 on this device, becaue later kernels provide better support for Baytrail devices, but I'm still determining which kernel version works best with this device.
