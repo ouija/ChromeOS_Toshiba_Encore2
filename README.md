@@ -43,6 +43,18 @@ _-----  Realtek rtl8723bs (rockchip_wlan) builds with brunch r100 / rammus recov
 	* Remove inclusion of the original driver by deleting the references to `rtl8723bs` from `Kconfig` and `Makefile` files in `<kernel>/driver/staging` folder
 <br>
 
+_-----  Invensense MPU 6050 device (accelerometer) builds with brunch r100 / rammus recovery 99:_
+
+Note that this device has the INV_MPU6050 device which needs to be enabled before building, by editing the `/out/.config` file that is generated when running the `make -j$(nproc) O=out chromeos_defconfig` _(see below)_
+
+You need to search this `/out/.config` file for "6050" and paste in:
+```
+CONFIG_INV_MPU6050_IIO=m
+CONFIG_INV_MPU6050_I2C=m
+CONFIG_INV_MPU6050_SPI=m
+```
+
+
 **Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
 git fetch https://github.com/youling257/rockchip_wlan v5.2.17.1
