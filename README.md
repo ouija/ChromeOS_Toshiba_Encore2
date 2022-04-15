@@ -54,6 +54,14 @@ CONFIG_INV_MPU6050_I2C=m
 CONFIG_INV_MPU6050_SPI=m
 ```
 
+_-----  Asahi Kasei Microsystems AK8975 device (3-axis magnetometer) builds with brunch r100 / rammus recovery 99:_
+
+This devices has AK8975 which needs to be enabled before building, by editing the `/out/.config` file that is generated when running the `make -j$(nproc) O=out chromeos_defconfig` _(see below)_
+
+You need to search this `/out/.config` file for "8975" and replace existing two lines with:
+```
+CONFIG_AK8975=m
+```
 
 **Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
