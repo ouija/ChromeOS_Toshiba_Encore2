@@ -8,15 +8,15 @@ kernels="4.19 5.4 5.10 5.15"
 kernel_modules="kernel-4.19.234-brunch-sebanc.tar.gz kernel-5.4.184-brunch-sebanc.tar.gz kernel-5.10.106-brunch-sebanc.tar.gz kernel-5.15.28-brunch-sebanc.tar.gz"
 
 for kernel in $kernels; do
-    if [ ! -f "kernel-$kernel" ]; then    
+    if [ ! -f "kernel-$kernel" ]; then
         echo "kernel replacement for $kernel missing, cannot continue!"
         echo
         exit
     fi
 done
 for module in $kernel_modules; do
-    if [ ! -f "$module" ]; then    
-        echo "moudle package replacement for $module missing, cannot continue!"
+    if [ ! -f "$module" ]; then
+        echo "module package replacement for $module missing, cannot continue!"
         echo
         exit
     fi
@@ -36,20 +36,20 @@ usb_mnt_path=($(echo "$usb_mnt_find" | tr ' ' '\n'))
 
 if [ ! -z "${usb_mnt_path[1]}" ]; then
     # Brunch root mount detected
-    echo "Brunch/ChromeOS root partition (USB?) detected at: ${usb_mnt_path[1]}"
-    read -p "Do you want to replace the kernels in brunch [root] image detected at ${usb_mnt_path[1]} with custom built ones? (yes/no) " yn
-    case $yn in 
+    echo "Brunch/ChromeOS ROOT-C partition / USB detected at: ${usb_mnt_path[1]}"
+    read -p "Do you want to replace the kernels/packages at ${usb_mnt_path[1]} with custom built ones? (yes/no) " yn
+    case $yn in
         yes ) echo "Replacing kernels, please wait..";
             # Replace kernels at detected location
             echo
             for kernel in $kernels; do
-                if [ -f "${usb_mnt_path[1]}/kernel-$kernel" ]; then    
+                if [ -f "${usb_mnt_path[1]}/kernel-$kernel" ]; then
                     echo "${usb_mnt_path[1]}/kernel-$kernel found, removing.."
                     rm ${usb_mnt_path[1]}/kernel-$kernel
                 fi
             done
             for module in $kernel_modules; do
-                if [ -f "${usb_mnt_path[1]}/packages/$module" ]; then    
+                if [ -f "${usb_mnt_path[1]}/packages/$module" ]; then
                     echo "${usb_mnt_path[1]}/packages/$module found, removing.."
                     rm ${usb_mnt_path[1]}/packages/$module
                 fi
@@ -67,7 +67,7 @@ if [ ! -z "${usb_mnt_path[1]}" ]; then
             done
             echo
             echo "Kernels and module packages replaced successfully!"
-            echo            
+            echo
             exit;;
             #break;;
         no ) echo "No changes were made!  Exiting..";
@@ -79,7 +79,7 @@ if [ ! -z "${usb_mnt_path[1]}" ]; then
     esac
 else
     # Brunch root mount not detected, look for img
-    echo "Brunch/ChromeOS root partition (USB?) NOT partition; Searching for local chromeos.img file.."
+    echo "Brunch/ChromeOS ROOT-C partition / USB not found, exiting.."
 fi
 exit
 
