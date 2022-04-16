@@ -21,8 +21,47 @@ This is still a work in progress and is not currently intended to be a guide for
 
 _-----  Realtek rtl8723bs (rockchip_wlan) builds with brunch r100 / rammus recovery 99:_
 
-Note you have to edit the `Makefile` for the rtl8723bs driver and hardcode the full path to the folder of the source code or build will fail;  There are some entries at the beginning of this file, and another around line 244.
+* Replace staging driver for `rtl8723bs` with [youling257 driver](https://github.com/youling257/rockchip_wlan):
+	* Clone the latest branch of youling257's driver via `git clone https://github.com/youling257/rockchip_wlan.git`
+	* Move the `rtl8723bs` folder to `./<kernel>/drivers/net/wireless/realtek/`
+	* Add references for this to the `./<kernel>/drivers/net/wireless/realtek/Makefile` and `./kernel/drivers/net/wireless/realtek/Kconfig` files:
+		* In **Kconfig** add `source "drivers/net/wireless/realtek/rtl8723bs/Kconfig"`
+		* In **Makefile** add `obj-$(CONFIG_RTL8723BS) += rtl8723bs/`
+	* Modify `./<kernel>/drivers/net/wireless/realtek/rtl8723bs/Makefile` to avoid issues with include paths during source compile:
+	* Delete/replace **line 24**:  `EXTRA_CFLAGS += -I$(src)/include`  with the following three new lines:
+	    ```
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/include
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/hal/phydm
+	    EXTRA_CFLAGS += -I/<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/platform
+	    ```
+	* Modify the values above after `EXTRA_CFLAGS += -I/` with the full path to your Android-x86 source files!
+	* Then replace **line 156** *(now line 158 after completing the above edit)* from this: 
+	    `export TopDIR ?= $(shell pwd)`
+	* To instead be:
+	    `export TopDIR ?= /<path to>/<kernel>/drivers/net/wireless/realtek/rtl8723bs/`
+	* And again modify this line above with the full path to your Android-x86 source files!
+	* Remove inclusion of the original driver by deleting the references to `rtl8723bs` from `Kconfig` and `Makefile` files in `<kernel>/driver/staging` folder
+<br>
 
+_-----  Invensense MPU 6050 device (accelerometer) builds with brunch r100 / rammus recovery 99:_
+
+Note that this device has the INV_MPU6050 device which needs to be enabled before building, by editing the `/out/.config` file that is generated when running the `make -j$(nproc) O=out chromeos_defconfig` _(see below)_
+
+You need to search this `/out/.config` file for "6050" and replace existing two lines with:
+```
+CONFIG_INV_MPU6050_IIO=m
+CONFIG_INV_MPU6050_I2C=m
+CONFIG_INV_MPU6050_SPI=m
+```
+
+_-----  Asahi Kasei Microsystems AK8975 device (3-axis magnetometer) builds with brunch r100 / rammus recovery 99:_
+
+This devices has AK8975 which needs to be enabled before building, by editing the `/out/.config` file that is generated when running the `make -j$(nproc) O=out chromeos_defconfig` _(see below)_
+
+You need to search this `/out/.config` file for "8975" and replace existing two lines with:
+```
+CONFIG_AK8975=m
+```
 
 **Building 4.19 rtl8723bs driver** involved using OLDER rockchip version as per [this thread](https://groups.google.com/g/android-x86/c/iwSFhlLyW7A/m/mKz0Th1JCAAJ):
 ```
@@ -31,9 +70,17 @@ git checkout FETCH_HEAD
 git reset --hard 443ce25ea0bb8e0b116e31541e534ac550be5dc8
 ```
 also applied `drm-i915-Disable-preemption-and-sleeping-while-using-the-punit-sideband.diff` patch
+
 also applied custom ouija backlight lpss patch to enable brightness slider.
+
 `patch -p1 -i ../ouija-k419-brunch-i915-drm-pwm-lpss-fix.diff`
-_[config file has 3 options already set]_
+
+_config file has 3 options already set:_
+```
+CONFIG_PWM_LPSS=y
+CONFIG_PWM_LPSS_PCI=y
+CONFIG_PWM_LPSS_PLATFORM=y
+```
 
 
 **Building 5.4 rtl8723bs driver** involved checking out the LATEST commit and then actually creating a [patch](https://github.com/ouija/ChromeOS_Toshiba_Encore2/blob/main/patches/kernel-54-rtl8723bs-revert-proc_ops.diff) to revert the [changes made between commit af0df86 and 443ce25](https://github.com/youling257/rockchip_wlan/commit/af0df860505dfdc5834068bf3c8e5253efec6bbe) 
